@@ -33,10 +33,10 @@ export default function App() {
   }
 
   const tabs = [
-    ['dashboard', 'Home'],
-    ['goals', 'Goals'],
-    ['lifestyle', 'Life'],
-    ['quests', 'Quests'],
+    ['dashboard', 'Home', 'home'],
+    ['goals', 'Goals', 'goals'],
+    ['lifestyle', 'Life', 'life'],
+    ['quests', 'Quests', 'quests'],
   ] as const
 
   return (
@@ -78,19 +78,64 @@ export default function App() {
       </main>
 
       <nav className="nav-mobile" aria-label="Primary mobile">
-        {tabs.map(([id, label]) => (
+        {tabs.map(([id, label, icon]) => (
           <button
             key={id}
             type="button"
             aria-current={view === id ? 'page' : undefined}
             onClick={() => setView(id)}
           >
-            <span className="nav-mobile__dot" aria-hidden />
-            {label}
+            <TabIcon name={icon} />
+            <span>{label}</span>
           </button>
         ))}
       </nav>
     </div>
+  )
+}
+
+function TabIcon({ name }: { name: 'home' | 'goals' | 'life' | 'quests' }) {
+  const common = {
+    width: 22,
+    height: 22,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.9,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true as const,
+  }
+
+  if (name === 'home') {
+    return (
+      <svg {...common}>
+        <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z" />
+      </svg>
+    )
+  }
+  if (name === 'goals') {
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="12" r="8" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    )
+  }
+  if (name === 'life') {
+    return (
+      <svg {...common}>
+        <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" />
+      </svg>
+    )
+  }
+  return (
+    <svg {...common}>
+      <path d="M8 21V8.8L12 3l4 5.8V21" />
+      <path d="M8 12h8" />
+      <path d="M8 16h8" />
+    </svg>
   )
 }
 
