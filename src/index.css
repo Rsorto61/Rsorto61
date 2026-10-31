@@ -228,8 +228,9 @@ p {
 /* —— Shell —— */
 .shell {
   min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 .topbar {
@@ -273,6 +274,7 @@ p {
 }
 
 .main {
+  flex: 1;
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 1.5rem 0 3.5rem;
@@ -589,14 +591,84 @@ p {
   }
 }
 
+.nav-mobile {
+  display: none;
+}
+
 @media (max-width: 640px) {
-  .topbar {
-    flex-direction: column;
-    align-items: stretch;
+  .shell {
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
   }
 
-  .nav {
-    justify-content: flex-start;
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    padding-top: max(0.65rem, env(safe-area-inset-top, 0px));
+  }
+
+  .nav--desktop {
+    display: none;
+  }
+
+  .reset-demo {
+    margin-left: auto;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  .main {
+    padding-inline: 1rem;
+  }
+
+  .nav-mobile {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    gap: 0.15rem;
+    padding: 0.45rem 0.5rem calc(0.45rem + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, #f7fbf8 92%, transparent);
+    border-top: 1px solid var(--line);
+    backdrop-filter: blur(14px);
+  }
+
+  .nav-mobile button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.28rem;
+    padding: 0.4rem 0.2rem;
+    border-radius: 12px;
+    min-height: 44px;
+  }
+
+  .nav-mobile__dot {
+    width: 1.35rem;
+    height: 0.28rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--ink) 14%, transparent);
+  }
+
+  .nav-mobile button[aria-current='page'] {
+    color: var(--ink);
+    background: color-mix(in srgb, var(--sage-bright) 22%, transparent);
+  }
+
+  .nav-mobile button[aria-current='page'] .nav-mobile__dot {
+    background: var(--copper);
   }
 
   .pillar-grid {
@@ -616,6 +688,10 @@ p {
   .name-field,
   .btn {
     width: 100%;
+  }
+
+  .landing__content {
+    padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
   }
 }
 

@@ -32,19 +32,19 @@ export default function App() {
     )
   }
 
+  const tabs = [
+    ['dashboard', 'Home'],
+    ['goals', 'Goals'],
+    ['lifestyle', 'Life'],
+    ['quests', 'Quests'],
+  ] as const
+
   return (
     <div className="app-root shell">
       <header className="topbar">
         <div className="topbar__brand">Cadence</div>
-        <nav className="nav" aria-label="Primary">
-          {(
-            [
-              ['dashboard', 'Dashboard'],
-              ['goals', 'Goals'],
-              ['lifestyle', 'Lifestyle'],
-              ['quests', 'Quests'],
-            ] as const
-          ).map(([id, label]) => (
+        <nav className="nav nav--desktop" aria-label="Primary">
+          {tabs.map(([id, label]) => (
             <button
               key={id}
               type="button"
@@ -55,8 +55,8 @@ export default function App() {
             </button>
           ))}
         </nav>
-        <button type="button" className="btn btn-soft" onClick={store.resetDemo}>
-          Reset demo
+        <button type="button" className="btn btn-soft reset-demo" onClick={store.resetDemo}>
+          Reset
         </button>
       </header>
 
@@ -76,6 +76,20 @@ export default function App() {
           </motion.div>
         </AnimatePresence>
       </main>
+
+      <nav className="nav-mobile" aria-label="Primary mobile">
+        {tabs.map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            aria-current={view === id ? 'page' : undefined}
+            onClick={() => setView(id)}
+          >
+            <span className="nav-mobile__dot" aria-hidden />
+            {label}
+          </button>
+        ))}
+      </nav>
     </div>
   )
 }
