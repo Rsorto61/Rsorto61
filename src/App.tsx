@@ -12,6 +12,7 @@ import {
 import { format, parseISO } from 'date-fns'
 import { PILLARS } from './data'
 import type { ViewId } from './types'
+import { useInstallPrompt } from './useInstallPrompt'
 import { useLifeStore } from './useLifeStore'
 import './App.css'
 
@@ -209,6 +210,64 @@ function Landing({
 
 type Store = ReturnType<typeof useLifeStore>
 
+function AppSection() {
+  const { canPrompt, installed, busy, platform, install } = useInstallPrompt()
+
+  return (
+    <section className="app-section" aria-labelledby="app-section-title">
+      <header className="app-section__head">
+        <span className="eyebrow">APP</span>
+        <h3 id="app-section-title">Add to Home Screen</h3>
+        <p>
+          Keep Cadence one tap away — install it like a phone app so your
+          dashboard opens without the browser chrome.
+        </p>
+      </header>
+
+      {installed ? (
+        <div className="app-section__status" role="status">
+          Cadence is already on your home screen.
+        </div>
+      ) : (
+        <div className="app-section__body">
+          {canPrompt ? (
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled={busy}
+              onClick={() => void install()}
+            >
+              {busy ? 'Opening…' : 'Add to Home Screen'}
+            </button>
+          ) : null}
+
+          <ol className="app-section__steps">
+            {platform === 'ios' ? (
+              <>
+                <li>Tap the Share button in Safari.</li>
+                <li>Scroll and choose Add to Home Screen.</li>
+                <li>Tap Add — Cadence appears on your home screen.</li>
+              </>
+            ) : platform === 'android' ? (
+              <>
+                <li>Tap the Chrome menu (⋮).</li>
+                <li>Choose Add to Home screen or Install app.</li>
+                <li>Confirm — Cadence opens like a native app.</li>
+              </>
+            ) : (
+              <>
+                <li>Open this site in Safari (iPhone) or Chrome (Android).</li>
+                <li>Use Share → Add to Home Screen, or Install app.</li>
+                <li>Launch Cadence from your home screen anytime.</li>
+              </>
+            )}
+          </ol>
+        </div>
+      )}
+    </section>
+  )
+}
+
 function Dashboard({ store }: { store: Store }) {
   const chartData = store.state.week.map((d) => ({
     day: format(parseISO(d.date), 'EEE'),
@@ -267,6 +326,8 @@ function Dashboard({ store }: { store: Store }) {
           </div>
         </div>
       </div>
+
+      <AppSection />
 
       <div className="grid-2">
         <div className="panel">

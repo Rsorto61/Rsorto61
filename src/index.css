@@ -591,6 +591,73 @@ p {
   }
 }
 
+.app-section {
+  margin: 0 0 1.5rem;
+  padding: 1.15rem 1.2rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--sage-bright) 18%, transparent),
+      color-mix(in srgb, #f0ddc4 35%, transparent)
+    ),
+    color-mix(in srgb, #fff 72%, transparent);
+  box-shadow: var(--shadow-soft);
+}
+
+.app-section__head {
+  margin-bottom: 0.85rem;
+}
+
+.app-section__head .eyebrow {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+}
+
+.app-section__head h3 {
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
+  margin-bottom: 0.35rem;
+}
+
+.app-section__head p {
+  color: var(--ink-soft);
+  line-height: 1.45;
+  max-width: 36rem;
+}
+
+.app-section__body {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.app-section__body .btn {
+  justify-self: start;
+  min-width: min(100%, 14rem);
+}
+
+.app-section__steps {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.4rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+.app-section__status {
+  font-weight: 650;
+  color: var(--sage);
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--sage-bright) 22%, transparent);
+}
+
 .nav-mobile {
   display: none;
 }

@@ -14,17 +14,19 @@ A lifestyle companion for goals, daily pillars, gamification, and a living dashb
 
 ### Put Cadence on your home screen (feels like an app)
 
+On **Home**, open the **APP** section → **Add to Home Screen** (or follow the steps listed there).
+
 **iPhone (Safari)**  
 Share → **Add to Home Screen** → Add.
 
 **Android (Chrome)**  
-Menu ⋮ → **Add to Home screen** / **Install app**.
+Menu ⋮ → **Add to Home screen** / **Install app** — or tap the in-app button when Chrome offers it.
 
 Your progress stays on that phone (saved in the browser). Clearing site data resets it. Tap **Reset** only if you want a fresh demo.
 
 ## What each tab does
 
-- **Home** — life score, streak, XP/level, weekly pulse, pillar balance, badges  
+- **Home** — life score, streak, XP/level, **APP → Add to Home Screen**, weekly pulse, pillar balance, badges  
 - **Goals** — daily check-ins that award XP  
 - **Life** — Sleep, Move, Focus, Connect, Craft dials  
 - **Quests** — longer challenges with claimable rewards  
