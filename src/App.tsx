@@ -12,6 +12,7 @@ import {
 import { format, parseISO } from 'date-fns'
 import { PILLARS } from './data'
 import type { ViewId } from './types'
+import { useInstallPrompt } from './useInstallPrompt'
 import { useLifeStore } from './useLifeStore'
 import './App.css'
 
@@ -32,19 +33,19 @@ export default function App() {
     )
   }
 
+  const tabs = [
+    ['dashboard', 'Home', 'home'],
+    ['goals', 'Goals', 'goals'],
+    ['lifestyle', 'Life', 'life'],
+    ['quests', 'Quests', 'quests'],
+  ] as const
+
   return (
     <div className="app-root shell">
       <header className="topbar">
         <div className="topbar__brand">Cadence</div>
-        <nav className="nav" aria-label="Primary">
-          {(
-            [
-              ['dashboard', 'Dashboard'],
-              ['goals', 'Goals'],
-              ['lifestyle', 'Lifestyle'],
-              ['quests', 'Quests'],
-            ] as const
-          ).map(([id, label]) => (
+        <nav className="nav nav--desktop" aria-label="Primary">
+          {tabs.map(([id, label]) => (
             <button
               key={id}
               type="button"
@@ -55,8 +56,8 @@ export default function App() {
             </button>
           ))}
         </nav>
-        <button type="button" className="btn btn-soft" onClick={store.resetDemo}>
-          Reset demo
+        <button type="button" className="btn btn-soft reset-demo" onClick={store.resetDemo}>
+          Reset
         </button>
       </header>
 
@@ -76,7 +77,66 @@ export default function App() {
           </motion.div>
         </AnimatePresence>
       </main>
+
+      <nav className="nav-mobile" aria-label="Primary mobile">
+        {tabs.map(([id, label, icon]) => (
+          <button
+            key={id}
+            type="button"
+            aria-current={view === id ? 'page' : undefined}
+            onClick={() => setView(id)}
+          >
+            <TabIcon name={icon} />
+            <span>{label}</span>
+          </button>
+        ))}
+      </nav>
     </div>
+  )
+}
+
+function TabIcon({ name }: { name: 'home' | 'goals' | 'life' | 'quests' }) {
+  const common = {
+    width: 22,
+    height: 22,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.9,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true as const,
+  }
+
+  if (name === 'home') {
+    return (
+      <svg {...common}>
+        <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z" />
+      </svg>
+    )
+  }
+  if (name === 'goals') {
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="12" r="8" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    )
+  }
+  if (name === 'life') {
+    return (
+      <svg {...common}>
+        <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" />
+      </svg>
+    )
+  }
+  return (
+    <svg {...common}>
+      <path d="M8 21V8.8L12 3l4 5.8V21" />
+      <path d="M8 12h8" />
+      <path d="M8 16h8" />
+    </svg>
   )
 }
 
@@ -150,6 +210,64 @@ function Landing({
 
 type Store = ReturnType<typeof useLifeStore>
 
+function AppSection() {
+  const { canPrompt, installed, busy, platform, install } = useInstallPrompt()
+
+  return (
+    <section className="app-section" aria-labelledby="app-section-title">
+      <header className="app-section__head">
+        <span className="eyebrow">APP</span>
+        <h3 id="app-section-title">Add to Home Screen</h3>
+        <p>
+          Keep Cadence one tap away — install it like a phone app so your
+          dashboard opens without the browser chrome.
+        </p>
+      </header>
+
+      {installed ? (
+        <div className="app-section__status" role="status">
+          Cadence is already on your home screen.
+        </div>
+      ) : (
+        <div className="app-section__body">
+          {canPrompt ? (
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled={busy}
+              onClick={() => void install()}
+            >
+              {busy ? 'Opening…' : 'Add to Home Screen'}
+            </button>
+          ) : null}
+
+          <ol className="app-section__steps">
+            {platform === 'ios' ? (
+              <>
+                <li>Tap the Share button in Safari.</li>
+                <li>Scroll and choose Add to Home Screen.</li>
+                <li>Tap Add — Cadence appears on your home screen.</li>
+              </>
+            ) : platform === 'android' ? (
+              <>
+                <li>Tap the Chrome menu (⋮).</li>
+                <li>Choose Add to Home screen or Install app.</li>
+                <li>Confirm — Cadence opens like a native app.</li>
+              </>
+            ) : (
+              <>
+                <li>Open this site in Safari (iPhone) or Chrome (Android).</li>
+                <li>Use Share → Add to Home Screen, or Install app.</li>
+                <li>Launch Cadence from your home screen anytime.</li>
+              </>
+            )}
+          </ol>
+        </div>
+      )}
+    </section>
+  )
+}
+
 function Dashboard({ store }: { store: Store }) {
   const chartData = store.state.week.map((d) => ({
     day: format(parseISO(d.date), 'EEE'),
@@ -208,6 +326,8 @@ function Dashboard({ store }: { store: Store }) {
           </div>
         </div>
       </div>
+
+      <AppSection />
 
       <div className="grid-2">
         <div className="panel">
