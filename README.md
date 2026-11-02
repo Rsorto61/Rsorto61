@@ -2,12 +2,12 @@
 
 A lifestyle companion for goals, daily pillars, gamification, and a living dashboard.
 
-**Live on your phone:** https://woody-dune-vmj9.here.now/
+**Live on your phone:** https://azure-mantra-g2aa.here.now/
 
 ## Use on your phone (2 minutes)
 
 1. Open Safari (iPhone) or Chrome (Android).
-2. Go to: **https://woody-dune-vmj9.here.now/**
+2. Go to: **https://azure-mantra-g2aa.here.now/**
 3. Type your name → tap **Open my dashboard**.
 4. Use the **bottom tabs** with icons: **Home · Goals · Life · Quests**.
 5. Check in goals daily to earn XP, grow your streak, and unlock badges.
